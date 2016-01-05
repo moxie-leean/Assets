@@ -1,0 +1,40 @@
+{
+  "name": "moxie-leean/theme-assets",
+  "description": "Loader for theme assets and some extra utilities related with loader of the assets.",
+  "keywords": ["wordpress", "assets", "css", "scripts"],
+  "homepage": "https://github.com/moxie-leean/theme-assets",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Crisoforo Gaspar Hernandez",
+      "email": "github@crisoforo.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Moxie\\": "src/"
+    }
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "2.*",
+    "wp-coding-standards/wpcs": "dev-master",
+    "phpdocumentor/phpdocumentor": "2.*"
+  },
+  "scripts": {
+    "installSniffer": [
+      "./vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs/",
+      "./vendor/bin/phpcs --config-set default_standard ./codesniffer.ruleset.xml",
+      "./vendor/bin/phpcs --config-set show_progress 0",
+      "./vendor/bin/phpcs --config-set colors 1"
+    ],
+    "post-install-cmd": [ "@installSnifferj" ],
+    "post-update-cmd": [ "@installSniffer" ],
+    "test": [
+      "phpcs src/*.php"
+    ]
+  }
+}
