@@ -1,4 +1,4 @@
-<?php namespace Moxie;
+<?php namespace Leean;
 
 /**
  * Class for loading assets based on environment.
