@@ -1,8 +1,8 @@
 {
-  "name": "moxie-leean/Assets",
+  "name": "moxie-leean/assets",
   "description": "Loader for theme assets and some extra utilities related with loader of the assets.",
   "keywords": ["wordpress", "assets", "css", "scripts"],
-  "homepage": "https://github.com/moxie-leean/Assets",
+  "homepage": "https://github.com/moxie-leean/assets",
   "type": "library",
   "license": "MIT",
   "authors": [
