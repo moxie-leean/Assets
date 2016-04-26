@@ -1,4 +1,4 @@
-<?php namespace Leean;
+<?php namespace Lean;
 
 /**
  * Class for loading assets based on environment.

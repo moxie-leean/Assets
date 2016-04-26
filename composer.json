@@ -1,5 +1,5 @@
 {
-  "name": "moxie-leean/assets",
+  "name": "moxie-lean/assets",
   "description": "Loader for theme assets and some extra utilities related with loader of the assets.",
   "keywords": ["wordpress", "assets", "css", "scripts"],
   "homepage": "https://github.com/moxie-leean/assets",
@@ -16,7 +16,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Leean\\": "src/"
+      "Lean\\": "src/"
     }
   },
   "require-dev": {
