@@ -8,8 +8,8 @@
  *
  * @since 1.1.0
  */
-class Assets {
-
+class Assets
+{
 	/**
 	 * Which environment we are in. Defaults to development.
 	 *
@@ -18,7 +18,6 @@ class Assets {
 	 * @var string $environment
 	 */
 	private $environment = 'development';
-
 	/**
 	 * Whether to load the comment-reply script or not.
 	 *
@@ -27,7 +26,6 @@ class Assets {
 	 * @var bool $load_comments
 	 */
 	private $load_comments = false;
-
 	/**
 	 * The JS version number to append to script URLs.
 	 *
@@ -36,7 +34,6 @@ class Assets {
 	 * @var bool $js_version
 	 */
 	private $js_version = false;
-
 	/**
 	 * The CSS version number to append to stylesheet URLs.
 	 *
@@ -45,16 +42,38 @@ class Assets {
 	 * @var bool $css_version
 	 */
 	private $css_version = false;
-
 	/**
-	 * Path to the theme URL to load the assets.
+	 * The jquery version number to append to stylesheet URLs.
+	 *
+	 * @since 1.1.0
+	 * @access private
+	 * @var bool $jquery_version
+	 */
+	private $jquery_version = false;
+	/**
+	 * Path to the css URL to load the assets.
 	 *
 	 * @since 2.0.0
 	 * @access private
-	 * @var string $theme_path
+	 * @var string css_uri
 	 */
-	private $theme_path = '';
-
+	private $css_uri = '';
+	/**
+	 * Path to the js URL to load the assets.
+	 *
+	 * @since 2.0.0
+	 * @access private
+	 * @var string js_uri
+	 */
+	private $js_uri = '';
+	/**
+	 * Path to the jquery URL to load the assets.
+	 *
+	 * @since 2.0.0
+	 * @access private
+	 * @var string jquery_uri
+	 */
+	private $jquery_uri = '';
 	/**
 	 * Array of configuration options.
 	 *
@@ -70,18 +89,22 @@ class Assets {
 	 * @since 1.1.0
 	 *
 	 * @param array $options {
-	 *	    Optional array of configuration options.
+	 *        Optional array of configuration options.
 	 *
-	 *      @type string 	$environment   Which environment we are in.
-	 *      @type bool|int 	$js_verion 	   Version number to use for scripts.
-	 *      @type bool|int  $css_version   Version number to user for stylesheets.
-	 *      @type bool      $load_comments Whether to load the comment-reply script.
-	 *      @type bool      $remove_emoji  Whether to remove emoji libraries.
+	 * @type string $environment Which environment we are in.
+	 * @type bool|int $js_verion Version number to use for scripts.
+	 * @type bool|int $css_version Version number to user for stylesheets.
+	 * @type bool $load_comments Whether to load the comment-reply script.
+	 * @type bool $remove_emoji Whether to remove emoji libraries.
 	 * }
 	 */
 	public function __construct( $options = array() ) {
 		$this->options = is_array( $options ) ? $options : array();
-		$this->theme_path = isset( $options['theme_path'] ) ? $options['theme_path'] : '';
+
+		$this->css_uri = isset( $options['css_uri'] ) ? $options['css_uri'] : '';
+		$this->js_uri = isset( $options['js_uri'] ) ? $options['js_uri'] : '';
+		$this->jquery_uri = isset( $options['jquery_uri'] ) ? $options['jquery_uri'] : '';
+
 		$this->set_up_environment();
 		$this->set_up_version_numbers();
 	}
@@ -118,6 +141,9 @@ class Assets {
 		}
 		if ( $this->it_has( 'css_version' ) ) {
 			$this->css_version = $this->options['css_version'];
+		}
+		if ( $this->it_has( 'jquery_version' ) ) {
+			$this->jquery_version = $this->options['jquery_version'];
 		}
 	}
 
@@ -158,7 +184,7 @@ class Assets {
 	public function get_assets_suffix() {
 		$assets_suffix = '';
 		if ( 'development' !== $this->environment ) {
-			$assets_suffix = '-min';
+			$assets_suffix = '.min';
 		}
 		return $assets_suffix;
 	}
@@ -186,7 +212,7 @@ class Assets {
 		// Load the JS files.
 		wp_enqueue_script(
 			sprintf( '%s-%s', $this->environment, 'js' ),
-			sprintf( '%s/assets/js/production%s.js', $this->theme_path, $suffix ),
+			str_replace( '.js', $suffix, $this->js_uri ) . '.js',
 			array( 'jquery' ),
 			$this->js_version,
 			true
@@ -195,7 +221,7 @@ class Assets {
 		// Load the CSS files.
 		wp_enqueue_style(
 			sprintf( '%s-%s', $this->environment, 'style' ),
-			sprintf( '%s/assets/css/style%s.css', $this->theme_path, $suffix ),
+			str_replace( '.css', $suffix, $this->css_uri ) . '.css',
 			array(),
 			$this->css_version,
 			'all'
@@ -215,22 +241,21 @@ class Assets {
 	 * @return void
 	 */
 	private function update_jquery() {
-		$jquery_path = 'bower_components/jquery/dist/jquery.min.js';
-		$jquery_version = '2.1.4';
-
 		wp_deregister_script( 'jquery' );
+
 		wp_register_script(
-			// Handle.
+		// Handle.
 			'jquery',
 			// Source path.
-			sprintf( '%s/%s', $this->theme_path, $jquery_path ),
+			$this->jquery_uri,
 			// No dependencies.
 			false,
 			// Version number.
-			$jquery_version,
+			$this->jquery_version,
 			// Don't load on footer.
 			false
 		);
+
 		wp_enqueue_script( 'jquery' );
 	}
 
