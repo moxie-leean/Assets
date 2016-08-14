@@ -10,6 +10,8 @@
  */
 class Assets
 {
+	const HOOK_PREFIX = 'lean_assets_';
+
 	/**
 	 * Which environment we are in. Defaults to development.
 	 *
@@ -210,22 +212,26 @@ class Assets
 		}
 
 		// Load the JS files.
-		wp_enqueue_script(
-			sprintf( '%s-%s', $this->environment, 'js' ),
-			str_replace( '.js', $suffix, $this->js_uri ) . '.js',
-			array( 'jquery' ),
-			$this->js_version,
-			true
-		);
+		if ( apply_filters( self::HOOK_PREFIX . 'include_js', true ) ) {
+			wp_enqueue_script(
+				sprintf( '%s-%s', $this->environment, 'js' ),
+				str_replace( '.js', $suffix, $this->js_uri ) . '.js',
+				array(),
+				$this->js_version,
+				true
+			);
+		}
 
 		// Load the CSS files.
-		wp_enqueue_style(
-			sprintf( '%s-%s', $this->environment, 'style' ),
-			str_replace( '.css', $suffix, $this->css_uri ) . '.css',
-			array(),
-			$this->css_version,
-			'all'
-		);
+		if ( apply_filters( self::HOOK_PREFIX . 'include_css', true ) ) {
+			wp_enqueue_style(
+				sprintf( '%s-%s', $this->environment, 'style' ),
+				str_replace( '.css', $suffix, $this->css_uri ) . '.css',
+				array(),
+				$this->css_version,
+				'all'
+			);
+		}
 
 		if ( $this->load_comments ) {
 			$this->load_comments_assets();
@@ -243,20 +249,22 @@ class Assets
 	private function update_jquery() {
 		wp_deregister_script( 'jquery' );
 
-		wp_register_script(
-		// Handle.
-			'jquery',
-			// Source path.
-			$this->jquery_uri,
-			// No dependencies.
-			false,
-			// Version number.
-			$this->jquery_version,
-			// Don't load on footer.
-			false
-		);
+		if ( apply_filters( self::HOOK_PREFIX . 'include_jquery', false ) ) {
+			wp_register_script(
+			// Handle.
+				'jquery',
+				// Source path.
+				$this->jquery_uri,
+				// No dependencies.
+				false,
+				// Version number.
+				$this->jquery_version,
+				// Load in footer.
+				true
+			);
 
-		wp_enqueue_script( 'jquery' );
+			wp_enqueue_script( 'jquery' );
+		}
 	}
 
 	/**
