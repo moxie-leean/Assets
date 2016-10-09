@@ -213,13 +213,10 @@ class Assets
 
 		// Load the JS files.
 		if ( apply_filters( self::HOOK_PREFIX . 'include_js', true ) ) {
-			wp_enqueue_script(
-				sprintf( '%s-%s', $this->environment, 'js' ),
-				str_replace( '.js', $suffix, $this->js_uri ) . '.js',
-				array(),
-				$this->js_version,
-				true
-			);
+			$handle = sprintf( '%s-%s', $this->environment, 'js' );
+			wp_register_script( $handle, str_replace( '.js', $suffix, $this->js_uri ) . '.js', [], $this->version, true );
+			wp_localize_script( $handle, apply_filters( self::HOOK_PREFIX . '_localize_script', [] ) );
+			wp_enqueue_script( $handle );
 		}
 
 		// Load the CSS files.
