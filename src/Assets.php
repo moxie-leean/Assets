@@ -8,8 +8,7 @@
  *
  * @since 1.1.0
  */
-class Assets
-{
+class Assets {
 	const HOOK_PREFIX = 'lean_assets_';
 
 	/**
@@ -215,8 +214,8 @@ class Assets
 		if ( apply_filters( self::HOOK_PREFIX . 'include_js', true ) ) {
 			$handle = sprintf( '%s-%s', $this->environment, 'js' );
 			wp_register_script( $handle, str_replace( '.js', $suffix, $this->js_uri ) . '.js', [], $this->version, true );
-			$localize_script = apply_filters( self::HOOK_PREFIX . '_localize_script', 'lean_localize_js' );
-			$localize_data = apply_filters( self::HOOK_PREFIX . '_localize_data', [] );
+			$localize_script = apply_filters( self::HOOK_PREFIX . 'localize_script', 'lean_localize_js' );
+			$localize_data = apply_filters( self::HOOK_PREFIX . 'localize_data', [] );
 			wp_localize_script( $handle, $localize_script, $localize_data );
 			wp_enqueue_script( $handle );
 		}
