@@ -259,7 +259,7 @@ class Assets
 				// Version number.
 				$this->jquery_version,
 				// Load in footer.
-				true
+				false
 			);
 
 			wp_enqueue_script( 'jquery' );
