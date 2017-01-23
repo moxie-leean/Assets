@@ -32,7 +32,7 @@
     ],
     "post-install-cmd": [ "@installSniffer" ],
     "post-update-cmd": [ "@installSniffer" ],
-    "ci": [
+    "lint": [
       "phpcs src/*.php"
     ]
   }

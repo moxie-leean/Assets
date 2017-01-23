@@ -82,7 +82,7 @@ class Assets {
 	 * @access private
 	 * @var array $options
 	 */
-	private $options = array();
+	private $options = [];
 
 	/**
 	 * PHP5 constructor.
@@ -99,12 +99,16 @@ class Assets {
 	 * @type bool $remove_emoji Whether to remove emoji libraries.
 	 * }
 	 */
-	public function __construct( $options = array() ) {
-		$this->options = is_array( $options ) ? $options : array();
-
-		$this->css_uri = isset( $options['css_uri'] ) ? $options['css_uri'] : '';
-		$this->js_uri = isset( $options['js_uri'] ) ? $options['js_uri'] : '';
-		$this->jquery_uri = isset( $options['jquery_uri'] ) ? $options['jquery_uri'] : '';
+	public function __construct( $options = [] ) {
+		$this->options = wp_parse_args($options, [
+			'css_uri' => '',
+			'js_uri' => '',
+			'jquery_uri' => '',
+			'automatic_suffix' => true,
+		]);
+		$this->css_uri = $this->options['css_uri'];
+		$this->js_uri = $this->options['js_uri'];
+		$this->jquery_uri = $this->options['jquery_uri'];
 
 		$this->set_up_environment();
 		$this->set_up_version_numbers();
@@ -184,7 +188,7 @@ class Assets {
 	 */
 	public function get_assets_suffix() {
 		$assets_suffix = '';
-		if ( 'development' !== $this->environment ) {
+		if ( 'development' !== $this->environment && $this->options['automatic_suffix'] ) {
 			$assets_suffix = '.min';
 		}
 		return $assets_suffix;
