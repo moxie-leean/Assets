@@ -76,6 +76,14 @@ class Assets {
 	 */
 	private $jquery_uri = '';
 	/**
+	 * Loading priority of the assets.
+	 *
+	 * @since 2.2.0
+	 * @access private
+	 * @var string jquery_uri
+	 */
+	private $priority = 10;
+	/**
 	 * Array of configuration options.
 	 *
 	 * @since 1.1.0
@@ -105,10 +113,12 @@ class Assets {
 			'js_uri' => '',
 			'jquery_uri' => '',
 			'automatic_suffix' => true,
+			'priority' => 10,
 		]);
 		$this->css_uri = $this->options['css_uri'];
 		$this->js_uri = $this->options['js_uri'];
 		$this->jquery_uri = $this->options['jquery_uri'];
+		$this->priority = $this->options['priority'];
 
 		$this->set_up_environment();
 		$this->set_up_version_numbers();
@@ -307,6 +317,6 @@ class Assets {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'setup_assets' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'setup_assets' ), $this->priority );
 	}
 }
