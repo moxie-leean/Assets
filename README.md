@@ -12,7 +12,7 @@ options available are:
 
 
 - `css_uri` Path to the CSS being loaded.
-- `css_version` - Default `false`, version to specify at the end of the css loaded, useful to 
+- `css_version` - Default `false`, version to specify at the end of the css loaded, useful to
 prevent the cache of the browser on the styles.
 - `js_version` - Default `false`, version to specify at the end of the JS loaded, useful to prevent
 - `js_uri` - Deafault `''` empty string, path where the JS is located.
@@ -24,3 +24,5 @@ prevent the cache of the browser on the styles.
   of jQuery to load.
 - `automatic_suffix` - Default `false` This flags allows you to disable the option to add
   automatically the `.min` suffix to each asset loaded when the `production` mode is enabled.
+- `automatic_suffix` - Default 10 - Sets the loading priority of the assets by accessing the priority of
+  the action hook `wp_enqueue_scripts`.
