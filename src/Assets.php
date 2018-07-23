@@ -205,7 +205,9 @@ class Assets {
 		$suffix = $this->get_assets_suffix();
 
 		if ( ! is_admin() ) {
-			$this->update_jquery();
+			if ( ! empty( $this->jquery_uri ) ) {
+				$this->update_jquery();
+			}
 			$remove_emoji_exists = array_key_exists( 'remove_emoji', $this->options );
 			if ( ! $remove_emoji_exists ||
 				( $remove_emoji_exists && $this->options['remove_emoji'] )
