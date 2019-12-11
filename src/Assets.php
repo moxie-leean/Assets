@@ -114,7 +114,7 @@ class Assets {
 			'jquery_uri' => '',
 			'automatic_suffix' => true,
 			'priority' => 10,
-			'dependencies' => []
+			'dependencies' => [],
 		]);
 		$this->css_uri = $this->options['css_uri'];
 		$this->js_uri = $this->options['js_uri'];
