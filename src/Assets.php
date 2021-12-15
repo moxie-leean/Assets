@@ -245,7 +245,7 @@ class Assets {
 			wp_enqueue_style(
 				sprintf( '%s-%s', $this->environment, 'style' ),
 				str_replace( '.css', $suffix, $this->css_uri ) . '.css',
-				array(),
+				[],
 				$this->css_version,
 				'all'
 			);
@@ -323,6 +323,6 @@ class Assets {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'setup_assets' ), $this->priority );
+		add_action( 'wp_enqueue_scripts', [ $this, 'setup_assets' ], $this->priority );
 	}
 }
