@@ -108,18 +108,21 @@ class Assets {
 	 * }
 	 */
 	public function __construct( $options = [] ) {
-		$this->options = wp_parse_args($options, [
-			'css_uri' => '',
-			'js_uri' => '',
-			'jquery_uri' => '',
-			'automatic_suffix' => true,
-			'priority' => 10,
-			'dependencies' => [],
-		]);
-		$this->css_uri = $this->options['css_uri'];
-		$this->js_uri = $this->options['js_uri'];
+		$this->options    = wp_parse_args(
+			$options,
+			[
+				'css_uri'          => '',
+				'js_uri'           => '',
+				'jquery_uri'       => '',
+				'automatic_suffix' => true,
+				'priority'         => 10,
+				'dependencies'     => [],
+			]
+		);
+		$this->css_uri    = $this->options['css_uri'];
+		$this->js_uri     = $this->options['js_uri'];
 		$this->jquery_uri = $this->options['jquery_uri'];
-		$this->priority = $this->options['priority'];
+		$this->priority   = $this->options['priority'];
 
 		$this->set_up_environment();
 		$this->set_up_version_numbers();
@@ -232,7 +235,7 @@ class Assets {
 			$handle = sprintf( '%s-%s', $this->environment, 'js' );
 			wp_register_script( $handle, str_replace( '.js', $suffix, $this->js_uri ) . '.js', $this->options['dependencies'], $this->js_version, true );
 			$localize_script = apply_filters( self::HOOK_PREFIX . 'localize_script', 'lean_localize_js' );
-			$localize_data = apply_filters( self::HOOK_PREFIX . 'localize_data', [] );
+			$localize_data   = apply_filters( self::HOOK_PREFIX . 'localize_data', [] );
 			wp_localize_script( $handle, $localize_script, $localize_data );
 			wp_enqueue_script( $handle );
 		}
@@ -242,7 +245,7 @@ class Assets {
 			wp_enqueue_style(
 				sprintf( '%s-%s', $this->environment, 'style' ),
 				str_replace( '.css', $suffix, $this->css_uri ) . '.css',
-				array(),
+				[],
 				$this->css_version,
 				'all'
 			);
@@ -320,6 +323,6 @@ class Assets {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'setup_assets' ), $this->priority );
+		add_action( 'wp_enqueue_scripts', [ $this, 'setup_assets' ], $this->priority );
 	}
 }
